@@ -11,19 +11,20 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 class QuizViewModel(
-    val quizRepository: QuizRepository
+    private val quizRepository: QuizRepository
 ): ViewModel() {
 
     val TAG = "Main_TAG"
     val quizs: MutableLiveData<QuizResource<Quizs>> = MutableLiveData()
+    var amount = 10
 
 
     init {
-        getQuiz()
+        getQuiz(9,"easy")
     }
 
-    fun getQuiz() = viewModelScope.launch {
-        val quizResponse = quizRepository.selectCategory()
+    fun getQuiz(category: Int, difficulty:String) = viewModelScope.launch {
+        val quizResponse = quizRepository.selectCategory(amount, category, difficulty)
         quizs.postValue(handleGetQuiz(quizResponse))
 
     }
@@ -39,5 +40,3 @@ class QuizViewModel(
 
 
 }
-
-

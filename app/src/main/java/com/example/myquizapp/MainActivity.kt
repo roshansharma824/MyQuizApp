@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(){
         val viewModelProviderFactory = QuizViewModelProviderFactory(quizRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(QuizViewModel::class.java)
 
-        val result: Result<String>
+        var key:Int? = null
 
         viewModel.quizs.observe(this, Observer { response ->
             when (response) {
@@ -48,15 +48,15 @@ class MainActivity : AppCompatActivity(){
 
 
         val categoryList = listOf("General Knowledge","Entertainment: Books","Entertainment: Film","Entertainment: Music",
-        "Entertainment: Musicals & Theatres","Entertainment: Television",
-        "Entertainment: Video Games","Entertainment: Board Games","Science & Nature",
-        "Science: Computers","Science: Mathematics",
-        "Mythology","Sports","Geography","History","Politics",
-        "Art","Celebrities","Animals","Vehicles","Entertainment: Comics",
-        "Science: Gadgets","Entertainment: Japanese Anime & Manga",
-        "Entertainment: Cartoon & Animations")
+            "Entertainment: Musicals & Theatres","Entertainment: Television",
+            "Entertainment: Video Games","Entertainment: Board Games","Science & Nature",
+            "Science: Computers","Science: Mathematics",
+            "Mythology","Sports","Geography","History","Politics",
+            "Art","Celebrities","Animals","Vehicles","Entertainment: Comics",
+            "Science: Gadgets","Entertainment: Japanese Anime & Manga",
+            "Entertainment: Cartoon & Animations")
 
-        val difficultyLevel = listOf("Easy","Medium","Hard")
+        val difficultyLevel = listOf("easy","medium","hard")
 
 
         val adapter1 = ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,categoryList)
@@ -70,8 +70,8 @@ class MainActivity : AppCompatActivity(){
             override fun onItemSelected(adapterView:  AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 category = adapterView?.getItemAtPosition(pos).toString()
                 Toast.makeText(this@MainActivity,
-                "$category",
-                Toast.LENGTH_LONG).show()
+                    "$category",
+                    Toast.LENGTH_LONG).show()
 
             }
 
@@ -96,10 +96,27 @@ class MainActivity : AppCompatActivity(){
         }
 
 
+
+
         binding.submit.setOnClickListener {
+            val keyCategory = mapOf(9 to "General Knowledge",10 to "Entertainment: Books",11 to "Entertainment: Film",12 to "Entertainment: Music",
+                13 to "Entertainment: Musicals & Theatres",14 to "Entertainment: Television",
+                15 to "Entertainment: Video Games",16 to "Entertainment: Board Games", 17 to "Science & Nature",
+                18 to "Science: Computers",19 to "Science: Mathematics",
+                20 to "Mythology",21 to "Sports", 22 to "Geography",23 to "History",24 to "Politics",
+                25 to "Art",26 to "Celebrities",27 to "Animals",28 to "Vehicles",29 to "Entertainment: Comics",
+                30 to "Science: Gadgets",31 to "Entertainment: Japanese Anime & Manga",
+                32 to "Entertainment: Cartoon & Animations")
+
+            keyCategory.forEach { (k, v) ->
+                if (category == v){
+                    key = k
+
+                }
+            }
 
             Intent(this,QuizActivity::class.java).also {
-                it.putExtra("v1",category)
+                it.putExtra("v1",key.toString())
                 it.putExtra("v2",difficulty)
                 startActivity(it)
             }

@@ -13,8 +13,8 @@ interface QuizApi {
         @Query("amount")
         amount: Int = 50,
 
-//        @Query("category")
-//        category: String = "History",
+        @Query("category")
+        category: Int = 9,
 
         @Query("difficulty")
         difficulty: String = "easy",
