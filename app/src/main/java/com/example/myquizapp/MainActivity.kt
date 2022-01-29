@@ -19,8 +19,8 @@ import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity(){
+
     lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: QuizViewModel
     var category:String? = null
     var difficulty: String? = null
 
@@ -28,23 +28,10 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val quizRepository = QuizRepository()
-        val viewModelProviderFactory = QuizViewModelProviderFactory(quizRepository)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(QuizViewModel::class.java)
 
         var key:Int? = null
 
-        viewModel.quizs.observe(this, Observer { response ->
-            when (response) {
-                is QuizResource.Success -> {
-                    response.data?.let { quizResponse ->
-                        val quiz = quizResponse.results
-                        binding.quiz = quiz[0]
-//                        binding.question.text = it.toString()
-                    }
-                }
-            }
-        })
+
 
 
         val categoryList = listOf("General Knowledge","Entertainment: Books","Entertainment: Film","Entertainment: Music",
